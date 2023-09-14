@@ -111,24 +111,37 @@ def selected_alternatives(con_df, disc_df, alts_names):
     return final_mat
 
 
-weights = [6, 4, 3, 10, 8, 6]
-con_thresholds  = [0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
-disc_thresholds = [2.5, 2.5, 2.5, 2.5, 2.5, 2.5]
-alts_names = ['Paris', 'Brussels', 'Amsterdam', 'Berlin', 'Warsaw', 'Milan', 'London']
-crit_names = ['AoS', 'Accs', 'QoL', 'BPPub', 'BPPriv', 'EoS']
+weights = [9, 5, 3, 2]
+con_thresholds  = [0.2, 0.2, 0.2, 0.2]
+disc_thresholds = [0.1, 0.1, 0.1, 0.1]
+alts_names = ['Munich - Verona', 'Coimbra - Madrid (incl. upgrades)', 'Milan - Budapest', 
+              'Hungary - Greece', 'Sibiu - Brasov', 'South of Finland', 'Nyköping - Södertälje',
+              'Petra - Kalamata ', 'Fehmarn Belt (incl. upgrades)', 'Upgrades in Cologne']
+crit_names = ['InvestCost', 'ConstructPeriod', 'Connectivity', 'AllKM']
 # Rows definition
-col_dat = [[3, 4, 4, 4, 5, 3], 
-           [2, 3, 3, 5, 3, 3], 
-           [2, 5, 3, 4, 5, 4], 
-           [4, 2, 2, 3, 4, 4], 
-           [4, 2, 2, 3, 3, 2],
-           [4, 2, 5, 3, 4, 4], 
-           [3, 5, 4, 3, 4, 5]]
+col_dat = [
+        [14000, 10, 3, 62.5], 
+        [4000,  7, 3, 4],
+        [20000, 10, 4, 4],
+        [10000, 8, 4, 4],
+        [5000,  7, 4, 4],
+        [3000,  6, 4, 4],
+        [2000,  6, 4, 4],
+        [3000,  6, 4, 4],
+        [7000,  7, 4, 4],
+        [2000,  6, 4, 4]
+        ]
 
 # Create dataframe
 df = pd.DataFrame(col_dat, columns=crit_names, index=alts_names)
 df.index.name = 'Alternatives'
 df.columns.name = 'Criteria'
+
+# If we have values not on the same scale, we can project them onto a scale from 1 to 5
+for col in df.columns:
+    if np.max(df[col]) > 5 or np.min(df[col]) < 1:
+        print(f"Values are not on the same scale in {col}. We project them onto a scale from 1 to 5")
+        df[col] = round((df[col] - np.min(df[col])) / (np.max(df[col]) - np.min(df[col])) * (5 - 1) + 1)
 
 print("\n" + "="*30)
 print("Dataframe")
