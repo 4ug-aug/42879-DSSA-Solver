@@ -120,16 +120,16 @@ alts_names = ['Munich - Verona', 'Coimbra - Madrid (incl. upgrades)', 'Milan - B
 crit_names = ['InvestCost', 'ConstructPeriod', 'Connectivity', 'AllKM']
 # Rows definition
 col_dat = [
-        [14000, 10, 3, 62.5], 
-        [4000,  7, 3, 4],
-        [20000, 10, 4, 4],
-        [10000, 8, 4, 4],
-        [5000,  7, 4, 4],
-        [3000,  6, 4, 4],
-        [2000,  6, 4, 4],
-        [3000,  6, 4, 4],
-        [7000,  7, 4, 4],
-        [2000,  6, 4, 4]
+        [14000, 10, 3, 784], 
+        [4000,  7, 3, 920],
+        [20000, 10, 4, 3296],
+        [10000, 8, 4, 2393],
+        [5000,  7, 1, 517],
+        [3000,  6, 1, 920],
+        [2000,  6, 2, 294],
+        [3000,  6, 4, 2123],
+        [7000,  7, 2, 943],
+        [2000,  6, 6, 1001]
         ]
 
 # Create dataframe
@@ -167,4 +167,8 @@ selected_alts = selected_alternatives(con_mat, disc_mat, alts_names)
 print("\n" + "="*30)
 print(selected_alts)
 
-
+# Save all to csv
+df.to_csv('data.csv')
+pd.DataFrame(con_mat, columns=alts_names, index=alts_names).to_csv('concordance.csv')
+pd.DataFrame(disc_mat, columns=alts_names, index=alts_names).to_csv('discordance.csv')
+selected_alts.to_csv('selected_alts.csv')
