@@ -85,7 +85,7 @@ def discordance_matrix(df, thresholds):
 
     return disc_mat
 
-def selected_alternatives(con_df, disc_df):
+def selected_alternatives(con_df, disc_df, alts_names):
     """
     Script to take both the concordance and discordance matrices
     and return the list of selected alternatives based on the
@@ -104,6 +104,9 @@ def selected_alternatives(con_df, disc_df):
 
     # Create empty matrix
     final_mat = con_df * disc_df
+
+    # Set cols and rows names
+    final_mat = pd.DataFrame(final_mat, columns=alts_names, index=alts_names)
 
     return final_mat
 
@@ -136,18 +139,18 @@ print(df)
 con_mat = concordance_matrix(df, weights, con_thresholds)
 print("\n" + "="*30)
 print("Concordance matrix")
-print("\n" + "="*30)
+print("="*30)
 print(con_mat)
 
 # Create discordance matrix
 disc_mat = discordance_matrix(df, disc_thresholds)
 print("\n" + "="*30)
 print("Discordance matrix")
-print("\n" + "="*30)
+print("="*30)
 print(disc_mat)
 
 # Get selected alternatives
-selected_alts = selected_alternatives(con_mat, disc_mat)
+selected_alts = selected_alternatives(con_mat, disc_mat, alts_names)
 print("\n" + "="*30)
 print(selected_alts)
 
